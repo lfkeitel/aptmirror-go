@@ -1,0 +1,22 @@
+skel = "private/test/skel"
+dest = "private/test/dest"
+downloadWorkers = 10
+
+[[repo]]
+archs = ["amd64"]
+proto = "http"
+url = "nginx.org/packages/ubuntu"
+dist = "xenial"
+components = ["nginx"]
+disableGPG = true
+gpgKeyFile = ""
+
+[[repo]]
+archs = ["amd64"]
+proto = "http"
+url = "archive.ubuntu.com/ubuntu"
+dist = "xenial"
+components = ["main"]
+disableGPG = true
+gpgKeyFile = ""
+disable = true
