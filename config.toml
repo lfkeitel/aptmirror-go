@@ -9,7 +9,7 @@ url = "nginx.org/packages/ubuntu"
 dist = "xenial"
 components = ["nginx"]
 disableGPG = true
-gpgKeyFile = ""
+GPGKeyFile = ""
 
 [[repo]]
 archs = ["amd64"]
@@ -18,5 +18,5 @@ url = "archive.ubuntu.com/ubuntu"
 dist = "xenial"
 components = ["main"]
 disableGPG = true
-gpgKeyFile = ""
+GPGKeyFile = ""
 disable = true

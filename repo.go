@@ -340,7 +340,7 @@ func (r *repo) processPackageFile(filename string) (map[string]distMetafile, err
 }
 
 func (r *repo) downloadPackages(files map[string]distMetafile, workers uint) error {
-	send := make(chan distMetafile, workers*2)
+	send := make(chan distMetafile, workers)
 	var wg sync.WaitGroup
 	for i := uint(0); i < workers; i++ {
 		wg.Add(1)
@@ -385,6 +385,7 @@ func (r *repo) downloadFileWorker(jobs <-chan distMetafile) {
 
 func (r *repo) downloadRemoteFile(dest string) (int64, error) {
 	remote := r.conf.Proto + "://" + dest
+	filename := dest[strings.LastIndexByte(dest, '/')+1:]
 	dest = filepath.Join(r.DownloadRoot, dest)
 
 	if err := checkAndMakeFilePath(dest); err != nil {
@@ -397,7 +398,9 @@ func (r *repo) downloadRemoteFile(dest string) (int64, error) {
 
 	logDebugf("Downloading %s\n", remote)
 
+	start := time.Now()
 	resp, err := httpClient.Get(remote)
+	end := time.Now().Sub(start)
 	if err != nil {
 		return 0, err
 	}
@@ -414,6 +417,6 @@ func (r *repo) downloadRemoteFile(dest string) (int64, error) {
 	defer destfile.Close()
 
 	read, err := io.Copy(destfile, resp.Body)
-	logDebugf("Downloaded %d bytes\n", read)
+	logDebugf("Downloaded %s in %s of size %d bytes (%s)\n", filename, end.String(), read, formatFileSize(read))
 	return read, err
 }

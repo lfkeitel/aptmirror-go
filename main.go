@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 )
 
@@ -23,8 +22,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Printf("%#v\n", config)
 
 	checkAndMakeDirPath(config.Skel)
 	checkAndMakeDirPath(config.Dest)
